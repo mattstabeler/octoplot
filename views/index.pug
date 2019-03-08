@@ -1,0 +1,86 @@
+extends layout
+
+block content
+  h1= title
+  p Octopus energy consumption in kWh
+
+  // pre=JSON.stringify(data, null, 2)
+  // pre=JSON.stringify(plot.keys, null, 2)
+  // pre=JSON.stringify(plot.data, null, 2)
+  canvas(id="consumptionChart", width="400", height="400")
+
+
+  script(src="/moment/moment.js")
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")
+
+
+  script.
+
+    var ctx = document.getElementById("consumptionChart").getContext('2d');
+    var plotData = (!{JSON.stringify(plot)});
+
+
+    var consumptionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: plotData.eKeys,
+            //- labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: 'Electrical Consumption (kWh)',
+                //- data: [12, 19, 3, 5, 2, 3],
+                data: plotData.eData,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+
+                borderColor: 'rgba(255,99,132,1)',
+                //- borderColor: [
+                //-     'rgba(255,99,132,1)',
+                //-     'rgba(54, 162, 235, 1)',
+                //-     'rgba(255, 206, 86, 1)',
+                //-     'rgba(75, 192, 192, 1)',
+                //-     'rgba(153, 102, 255, 1)',
+                //-     'rgba(255, 159, 64, 1)'
+                //- ],
+                //- borderWidth: 1
+            },{
+                label: 'Gas Consumption (kWh)',
+                //- data: [12, 19, 3, 5, 2, 3],
+                data: plotData.gData,
+                backgroundColor: 'rgba(132, 99, 255, 0.2)',
+                borderColor: 'rgba(132, 99, 255,1)',
+
+                //- backgroundColor: [
+                //-     'rgba(255, 99, 132, 0.2)',
+                //-     'rgba(54, 162, 235, 0.2)',
+                //-     'rgba(255, 206, 86, 0.2)',
+                //-     'rgba(75, 192, 192, 0.2)',
+                //-     'rgba(153, 102, 255, 0.2)',
+                //-     'rgba(255, 159, 64, 0.2)'
+                //- ],
+                //- borderColor: [
+                //-     'rgba(255,99,132,1)',
+                //-     'rgba(54, 162, 235, 1)',
+                //-     'rgba(255, 206, 86, 1)',
+                //-     'rgba(75, 192, 192, 1)',
+                //-     'rgba(153, 102, 255, 1)',
+                //-     'rgba(255, 159, 64, 1)'
+                //- ],
+                //- borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'hour'
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
