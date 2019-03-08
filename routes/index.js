@@ -7,12 +7,17 @@ const services = require('../services/services');
 router.get('/', async (req, res, next) => {
 
 
-  let eData = await services.get('octopus').electricConsumption();
-  let gData = await services.get('octopus').gasConsumption();
+  let eData, gData;
+
+  if(process.env.NODE_ENV == 'production'){
+    eData = await services.get('octopus').electricConsumption();
+    gData = await services.get('octopus').gasConsumption();
+  } else {
+    eData = require('../public/eData')
+    gData = require('../public/gData')
+  }
 
 
-  // let eData = require('../public/eData')
-  // let gData = require('../public/gData')
   // console.log(data);
 
 
