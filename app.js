@@ -32,6 +32,7 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/moment', express.static('node_modules/moment'));
+app.use('/chart.js', express.static('node_modules/chart.js/dist'));
 
 app.use('/', index);
 app.use('/api/v1', api);

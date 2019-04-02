@@ -3,6 +3,23 @@ const router = express.Router();
 const moment = require('moment-timezone')
 const request = require('request-promise');
 const services = require('../services/services');
+
+router.get('/stats', async (req, res, next) => {
+
+  let eData, gData;
+
+  if(process.env.NODE_ENV == 'production'){
+    eData = await services.get('octopus').electricConsumption();
+    gData = await services.get('octopus').gasConsumption();
+  } else {
+    eData = require('../public/eData')
+    gData = require('../public/gData')
+  }
+
+
+
+  res.render('stats', {data: { eData, gData }})
+})
 /* GET home page. */
 router.get('/', async (req, res, next) => {
 
