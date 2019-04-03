@@ -9,8 +9,9 @@ const stats = require('./stats')
 const api = require('./api')
 
 router.use(express.static(path.join(__dirname, '../../public')));
-router.use('/moment', express.static('node_modules/moment'));
-router.use('/chart.js', express.static('node_modules/chart.js/dist'));
+router.use('/moment-timezone', express.static(path.join(__dirname, '../../node_modules/moment-timezone')));
+router.use('/moment', express.static(path.join(__dirname, '../../node_modules/moment')));
+router.use('/chart.js', express.static(path.join(__dirname, '../../node_modules/chart.js/dist')));
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
