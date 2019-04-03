@@ -1,43 +1,18 @@
 const express = require('express');
-const router = express.Router();
-const moment = require('moment-timezone')
-const request = require('request-promise');
+const moment = require('moment-timezone');
+
 const services = require('../services/services');
+const router = express.Router();
 
-router.get('/stats', async (req, res, next) => {
-
-  let eData, gData;
-
-  if(process.env.NODE_ENV == 'production'){
-    eData = await services.get('octopus').electricConsumption();
-    gData = await services.get('octopus').gasConsumption();
-  } else {
-    eData = require('../public/eData')
-    gData = require('../public/gData')
-  }
-
-
-
-  res.render('stats', {data: { eData, gData }})
-})
 /* GET home page. */
 router.get('/', async (req, res, next) => {
+  const dataService = services.get('data');
 
 
-  let eData, gData;
-
-  if(process.env.NODE_ENV == 'production'){
-    eData = await services.get('octopus').electricConsumption();
-    gData = await services.get('octopus').gasConsumption();
-  } else {
-    eData = require('../public/eData')
-    gData = require('../public/gData')
-  }
-
+  let eData = await dataService.electricConsumption();
+  let gData = await dataService.gasConsumption();
 
   // console.log(data);
-
-
 
   eData.results.reverse()
   gData.results.reverse()
@@ -56,5 +31,6 @@ router.get('/', async (req, res, next) => {
 
   res.render('index', { title: 'Consumption in kWH', plot: plotData });
 });
+
 
 module.exports = router;
